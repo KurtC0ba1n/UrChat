@@ -11,9 +11,31 @@ class Server:
         self.main_connection.bind((self.host, self.port))
 
 
-    def add_client(self, id, password):
-        if id not in self.clients:
-            self.clients[id] = {"password":password, "statut":0, "ip":""}
+    def add_client(self, login, password):
+        """
+        Add client
+
+        :param login, password:
+        :return True if login not register else False:
+        """
+        if login not in self.clients:
+            self.clients[login] = {"password":password, "statut":0, "ip":""}
             return True
         else:
-            return False        
+            print("# WARNING: Login already used")
+            return False
+
+
+    def remove_client(self, login):
+        """
+        Remove client
+
+        :param login:
+        :return True if login exists else False:
+        """
+        if login in self.clients:
+            del(self.clients[login])
+            return True
+        else:
+            print("# WARNING: Client don't exists")
+            return False
