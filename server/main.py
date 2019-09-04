@@ -52,6 +52,15 @@ class Server:
             print("# WARNING: Client don't exists")
             return False
 
+    def send_message(self, login, message):
+        """
+        Send message to client
+
+        :param client, message:
+        :return:
+        """
+        self.clients[login]["con"].send(message)
+
 
     def wait_client(self):
     """
@@ -68,6 +77,6 @@ class Server:
         self.clients[login]["ip"] = addr[0]
         self.clients[login]["conn"] = conn
         return True
-        
+
     else:
         return False
