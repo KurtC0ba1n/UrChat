@@ -11,6 +11,18 @@ class Server:
         self.main_connection.bind((self.host, self.port))
 
 
+    def _handshake(self):
+        """
+        Wait and init a connection
+
+        :param:
+        :return conn, addr:
+        """
+        self.main_connection.listen(5)
+        conn, addr = self.main_connection.accept()
+        return conn, addr
+
+
     def add_client(self, login, password):
         """
         Add client
