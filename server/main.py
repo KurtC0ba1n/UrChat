@@ -11,7 +11,7 @@ class Server:
         self.main_connection.bind((self.host, self.port))
 
 
-    def _handshake(self):
+    def wait_connection(self):
         """
         Wait and init a connection
 
@@ -31,7 +31,7 @@ class Server:
         :return True if login not register else False:
         """
         if login not in self.clients:
-            self.clients[login] = {"password":password, "statut":0, "ip":""}
+            self.clients[login] = {"password":password, "statut":0, "ip":"", "conn":""}
             return True
         else:
             print("# WARNING: Login already used")
@@ -51,3 +51,23 @@ class Server:
         else:
             print("# WARNING: Client don't exists")
             return False
+
+
+    def wait_client(self):
+    """
+    Wait client connection
+
+    :param:
+    :return:
+    """
+    conn, addr = self.wait_connection()
+    login = conn.recv(1024)
+    password = conn.recv(1024)
+    if self.clients[login]["password"] == password:
+        self.clients[login]["statut"] = 1
+        self.clients[login]["ip"] = addr[0]
+        self.clients[login]["conn"] = conn
+        return True
+        
+    else:
+        return False
