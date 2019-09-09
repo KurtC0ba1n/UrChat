@@ -11,7 +11,11 @@ class Server:
         self.main_connection.bind((self.host, self.port))
 
 
+<<<<<<< HEAD
     def wait_connection(self):
+=======
+    def _handshake(self):
+>>>>>>> f9269fa84759361b090618e39a2fbd8a4220b0bc
         """
         Wait and init a connection
 
