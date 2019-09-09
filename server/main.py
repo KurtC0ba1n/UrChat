@@ -71,13 +71,15 @@ class Server:
         :return True connection successful else False:
         """
         conn, addr = self.wait_connection()
-        login = conn.recv(1024)
-        password = conn.recv(1024)
-        if self.clients[login]["password"] == password:
-            self.clients[login]["statut"] = 1
-            self.clients[login]["ip"] = addr[0]
-            self.clients[login]["conn"] = conn
-            return True
-
+        login = conn.recv(1024).decode("utf-8")
+        password = conn.recv(1024).decode("utf-8")
+        if login in self.clients:
+            if self.clients[login]["password"] == password:
+                self.clients[login]["statut"] = 1
+                self.clients[login]["ip"] = addr[0]
+                self.clients[login]["conn"] = conn
+                return True
+            else:
+                False
         else:
             return False
