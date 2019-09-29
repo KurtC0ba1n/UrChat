@@ -61,7 +61,7 @@ class inputBox():
         self.isFocused = False
         self.message = self.text
         self.charsLen = []
-        self.surf = pygame.Surface((270, 25))
+        self.surf = pygame.Surface((280, 25))
         self.surf.fill((255, 255, 255))
         self.colorBox = (255,255,255)
         self.colorInput = (0,0,0)
@@ -109,3 +109,20 @@ class inputBox():
 
     def get_frame(self):
         return self.surf
+
+class Button(object):
+
+    def __init__(self, size, position, pathImage):
+        self.image = pygame.image.load(pathImage)
+        self.image = pygame.transform.scale(self.image, size)
+        self.position = position
+        self.imageRectPos = pygame.Rect(position, (position[0]+size[0], position[1]+size[1]))
+
+    def get_frame(self):
+       return self.image
+
+
+    def isCliked(self):
+        if self.imageRectPos.collidepoint(pygame.mouse.get_pos()):
+            return True
+        else: return False
