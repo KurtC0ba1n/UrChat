@@ -5,7 +5,7 @@ from server import Server
 
 if __name__ == "__main__":
     while True:
-        port_num = input("Port? ")
+        port_num = input("Port ?\n")
         try:
             port_num = int(port_num)
             break
