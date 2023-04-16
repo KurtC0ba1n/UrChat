@@ -40,9 +40,26 @@ class Server:
         """
         self.clients[login]["con"].send(message)
 
+    def commands_read(self, text, client):
+        if len(text) == 0:
+            return True
+        elif "!exit" in str(text)[2:-1]:
+            client.send("goodbye")
+            return False
+        else:
+            return True
+
+
     def propagate_msg(self, client_conn):
-        while True:
+        msg=""
+        while self.commands_read(msg, client_conn):
             msg = client_conn.recv(1024)
             for c in self.clients:
                 c["conn"].send(msg)
+        toRemove = None
+        for c in self.clients:
+            if c["conn"] == client_conn:
+                toRemove = c
+                break
+        self.clients.remove(toRemove)
 
