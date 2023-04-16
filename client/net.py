@@ -32,20 +32,19 @@ class Networker():
                     raise RuntimeError("socket connection broken")
                 totalsent = totalsent + sent
             except:
-                self.signal += ' your message hasn\'t been sended, you have been disconnected from the server'
+                self.signal += ' your message hasn\'t been sent, you have been disconnected from the server'
                 self.sock.close()
                 self.listenning.join()
                 break
 
     def net_listen(self):
-        run = True
-        while run:
+        while not self.endFlag:
             try:
                 message = self.sock.recv(2048)
                 if len(message) > 0:
                     self.messageQueue.put(message)
             except:
-                run = False
+                self.endFlag = True
 
 
     def get_message(self):
@@ -62,5 +61,6 @@ class Networker():
         return send
 
     def net_end(self):
-        self.net_send("exit")
+        self.net_send("/exit")
+        self.endFlag = True
         self.sock.close()
